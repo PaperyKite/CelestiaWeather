@@ -1,0 +1,150 @@
+/**
+ * 地图控件主题样式表
+ * 通过 .CelestiaWeather-theme-light / .CelestiaWeather-theme-dark 切换，使用 CSS 变量适配
+ */
+.CelestiaWeather-wrapper {
+  --CelestiaWeather-radius: 4px;
+  --CelestiaWeather-font-size: 0.75rem;
+  --CelestiaWeather-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  --CelestiaWeather-shadow-strong: 0 2px 8px rgba(0, 0, 0, 0.12);
+  /* 右侧按钮 + 左侧展开 控件统一尺寸与内边距 */
+  --CelestiaWeather-control-trigger-size: 2.25rem;
+  --CelestiaWeather-control-padding-left: 0.5rem;
+  --CelestiaWeather-control-padding-right: 0.375rem;
+  --CelestiaWeather-control-panel-gap: 0.375rem;
+  /* 时间轴条（深色底） */
+  --CelestiaWeather-timeline-bg: #2c3e50;
+  --CelestiaWeather-timeline-fg: #fff;
+  --CelestiaWeather-timeline-fg-muted: rgba(255, 255, 255, 0.7);
+  --CelestiaWeather-timeline-datetime-bg: rgba(255, 255, 255, 0.1);
+  --CelestiaWeather-timeline-datetime-hover: rgba(255, 255, 255, 0.15);
+  --CelestiaWeather-timeline-btn-bg: rgba(255, 255, 255, 0.12);
+  --CelestiaWeather-timeline-btn-hover: rgba(255, 255, 255, 0.2);
+  --CelestiaWeather-timeline-btn-active: rgba(26, 115, 232, 0.5);
+  --CelestiaWeather-timeline-track-bg: rgba(255, 255, 255, 0.2);
+  --CelestiaWeather-timeline-fill: rgba(26, 115, 232, 0.4);
+  --CelestiaWeather-timeline-thumb-bg: #1a73e8;
+  --CelestiaWeather-timeline-tooltip-bg: #e65100;
+  --CelestiaWeather-timeline-tab-realtime-bg: rgba(33, 150, 243, 0.35);
+  --CelestiaWeather-timeline-tab-realtime-active: rgba(33, 150, 243, 0.6);
+  --CelestiaWeather-timeline-tab-forecast-bg: rgba(255, 193, 7, 0.35);
+  --CelestiaWeather-timeline-tab-forecast-active: rgba(255, 193, 7, 0.6);
+}
+
+/* 右侧按钮、左侧展开的控件统一样式（底图切换、主题切换等） */
+.CelestiaWeather-control-expand {
+  position: relative;
+  display: inline-flex;
+  flex-direction: row-reverse;
+  align-items: center;
+  gap: 0;
+  pointer-events: auto;
+}
+.CelestiaWeather-control-expand__trigger {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--CelestiaWeather-control-trigger-size, 2.25rem);
+  height: var(--CelestiaWeather-control-trigger-size, 2.25rem);
+  flex-shrink: 0;
+  padding: 0;
+  background: var(--CelestiaWeather-bg, #fff);
+  color: var(--CelestiaWeather-color, #202124);
+  border: 1px solid var(--CelestiaWeather-border, #dadce0);
+  border-radius: var(--CelestiaWeather-radius, 4px);
+  cursor: pointer;
+  box-shadow: var(--CelestiaWeather-shadow, 0 1px 3px rgba(0, 0, 0, 0.1));
+  transition: background 0.15s, border-color 0.15s, box-shadow 0.15s;
+}
+.CelestiaWeather-control-expand__trigger:hover {
+  background: var(--CelestiaWeather-bg-hover, #f8f8f8);
+}
+.CelestiaWeather-control-expand.open .CelestiaWeather-control-expand__trigger {
+  border-radius: 0 var(--CelestiaWeather-radius, 4px) var(--CelestiaWeather-radius, 4px) 0;
+  border-left: none;
+}
+.CelestiaWeather-control-expand__panel {
+  position: absolute;
+  right: 100%;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  height: var(--CelestiaWeather-control-trigger-size, 2.25rem);
+  box-sizing: border-box;
+  padding: 0 var(--CelestiaWeather-control-padding-right, 0.375rem) 0 var(--CelestiaWeather-control-padding-left, 0.5rem);
+  margin-right: -1px;
+  gap: var(--CelestiaWeather-control-panel-gap, 0.375rem);
+  background: var(--CelestiaWeather-bg, #fff);
+  border: 1px solid var(--CelestiaWeather-border, #dadce0);
+  border-radius: var(--CelestiaWeather-radius, 4px) 0 0 var(--CelestiaWeather-radius, 4px);
+  box-shadow: var(--CelestiaWeather-shadow-strong, 0 2px 8px rgba(0, 0, 0, 0.12));
+  transform-origin: right center;
+}
+.CelestiaWeather-control-expand__option {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  padding: 0;
+  border: none;
+  background: transparent;
+  color: var(--CelestiaWeather-color, #202124);
+  cursor: pointer;
+  border-radius: 3px;
+  overflow: hidden;
+  transition: transform 0.12s, box-shadow 0.12s;
+  flex-shrink: 0;
+}
+.CelestiaWeather-control-expand__option:hover {
+  background: var(--CelestiaWeather-bg-hover, rgba(0, 0, 0, 0.04));
+  transform: scale(1.05);
+}
+.CelestiaWeather-control-expand__option.active {
+  box-shadow: 0 0 0 2px var(--CelestiaWeather-accent, #1a73e8);
+  outline: none;
+}
+
+/* 展开/收起动画（所有右侧展开控件共用） */
+.CelestiaWeather-control-expand-enter-active,
+.CelestiaWeather-control-expand-leave-active {
+  transition: transform 0.25s cubic-bezier(0.33, 1, 0.68, 1), opacity 0.2s ease;
+}
+.CelestiaWeather-control-expand-enter-from,
+.CelestiaWeather-control-expand-leave-to {
+  transform: translateY(-50%) scaleX(0);
+  opacity: 0;
+}
+.CelestiaWeather-control-expand-enter-to,
+.CelestiaWeather-control-expand-leave-from {
+  transform: translateY(-50%) scaleX(1);
+  opacity: 1;
+}
+
+/* 亮色主题（默认） */
+.CelestiaWeather-theme-light,
+.CelestiaWeather-wrapper:not([data-theme]) {
+  --CelestiaWeather-bg: #fff;
+  --CelestiaWeather-bg-hover: #f5f5f5;
+  --CelestiaWeather-bg-active: #e8f0fe;
+  --CelestiaWeather-color: #202124;
+  --CelestiaWeather-color-muted: #5f6368;
+  --CelestiaWeather-border: #dadce0;
+  --CelestiaWeather-accent: #1a73e8;
+  --CelestiaWeather-status-bg: rgba(255, 255, 255, 0.92);
+}
+
+/* 暗色主题 */
+.CelestiaWeather-theme-dark,
+.CelestiaWeather-wrapper[data-theme="dark"] {
+  --CelestiaWeather-bg: #2d2d2d;
+  --CelestiaWeather-bg-hover: #3d3d3d;
+  --CelestiaWeather-bg-active: #1a3a5c;
+  --CelestiaWeather-color: #e8eaed;
+  --CelestiaWeather-color-muted: #9aa0a6;
+  --CelestiaWeather-border: #5f6368;
+  --CelestiaWeather-accent: #8ab4f8;
+  --CelestiaWeather-status-bg: rgba(45, 45, 45, 0.92);
+}
