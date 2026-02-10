@@ -6,7 +6,12 @@ export default defineConfig({
   title: 'CelestiaWeather',
   description: '基于 OpenLayers 的地图类库，Vue 3 界面已打包进库，安装即用',
   ignoreDeadLinks: true,
-  appearance: 'dark',
+  // 固定为暗色并关闭切换，避免 appearance 导致服务端/客户端渲染不一致（hydration mismatch）
+  appearance: false,
+  head: [
+    // 在任何脚本前为 <html> 加上 dark，使首屏与 Vue 水合一致，避免 hydration mismatch
+    ['script', {}, 'document.documentElement.classList.add("dark")'],
+  ],
   themeConfig: {
     logo: '/logo.svg',
     siteTitle: 'CelestiaWeather',
