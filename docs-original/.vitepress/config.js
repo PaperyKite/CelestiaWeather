@@ -1,17 +1,52 @@
 import { defineConfig } from 'vitepress'
 
+/** 修补默认主题 VPNavBar：首屏 top 与 SSG 一致，消除 hydration mismatch */
+function vitepressHydrationFix() {
+  return {
+    name: 'vitepress-hydration-fix',
+    transform(code, id) {
+      if (!id.includes('VPNavBar') || (!id.includes('theme-default') && !id.includes('vitepress'))) return
+      if (!code.includes("'top': y.value === 0")) return null
+
+      let out = code
+        .replace(
+          /import\s*\{\s*ref\s*,\s*watchPostEffect\s*\}\s*from\s*['"]vue['"]/,
+          "import { ref, watchPostEffect, onMounted, watchEffect } from 'vue'"
+        )
+        .replace(
+          /const classes = ref<Record<string, boolean>>\(\{\}\)\s*\n\s*watchPostEffect/,
+          `const classes = ref<Record<string, boolean>>({})
+const isTop = ref(true)
+onMounted(() => {
+  watchEffect(() => { isTop.value = y.value === 0 })
+})
+
+watchPostEffect`
+        )
+        .replace(/'top': y\.value === 0/, "'top': isTop.value")
+
+      return out !== code ? { code: out, map: null } : null
+    },
+  }
+}
+
 export default defineConfig({
   base: './',
   lang: 'zh-CN',
   title: 'CelestiaWeather',
   description: '基于 OpenLayers 的地图类库，Vue 3 界面已打包进库，安装即用',
   ignoreDeadLinks: true,
+  // 使用 .html 链接，避免静态托管（如 GitHub Pages）下 /guide/ 等路径直接访问 404
+  cleanUrls: false,
   // 固定为暗色并关闭切换，避免 appearance 导致服务端/客户端渲染不一致（hydration mismatch）
   appearance: false,
   head: [
     // 在任何脚本前为 <html> 加上 dark，使首屏与 Vue 水合一致，避免 hydration mismatch
     ['script', {}, 'document.documentElement.classList.add("dark")'],
   ],
+  vite: {
+    plugins: [vitepressHydrationFix()],
+  },
   themeConfig: {
     logo: '/logo.svg',
     siteTitle: 'CelestiaWeather',

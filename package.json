@@ -21,7 +21,7 @@
     "build": "vite build",
     "preview": "vite preview",
     "docs:dev": "vitepress dev docs-original",
-    "docs:build": "vitepress build docs-original --outDir ./docs",
+    "docs:build": "vitepress build docs-original --outDir ./docs && node -e \"require('fs').copyFileSync('docs/index.html','docs/404.html')\"",
     "prepublishOnly": "npm run build"
   },
   "keywords": [
