@@ -1,8 +1,10 @@
 <script setup>
 import DefaultTheme from 'vitepress/theme'
-import heroLogo from './hero-logo.svg'
+import { withBase } from 'vitepress'
 
 const Layout = DefaultTheme.Layout
+// 使用 withBase 保证资源为相对路径（base: './'）
+const heroLogo = withBase('/hero-logo.svg')
 </script>
 
 <template>

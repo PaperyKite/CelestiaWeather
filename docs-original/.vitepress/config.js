@@ -1,6 +1,7 @@
 import { defineConfig } from 'vitepress'
 
 export default defineConfig({
+  base: './',
   lang: 'zh-CN',
   title: 'CelestiaWeather',
   description: '基于 OpenLayers 的地图类库，Vue 3 界面已打包进库，安装即用',
