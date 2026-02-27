@@ -6,7 +6,7 @@ export const DEFAULT_BASE_MAPS = [
   {
     id: 'gaode',
     name: '高德地图',
-    url: 'https://webrd01.is.autonavi.com/appmaptile?lang=zh_cn&size=1&scale=1&style=8&x={x}&y={y}&z={z}',
+    url: 'https://webrd0{1-4}.is.autonavi.com/appmaptile?lang=zh_cn&size=1&scale=1&style=8&x={x}&y={y}&z={z}',
     thumbnail: 'https://webrd01.is.autonavi.com/appmaptile?lang=zh_cn&size=1&scale=1&style=8&x=2&y=1&z=3',
     maxZoom: 18,
     minZoom: 3,
@@ -14,7 +14,7 @@ export const DEFAULT_BASE_MAPS = [
   {
     id: 'gaode-satellite',
     name: '高德卫星',
-    url: 'https://webst01.is.autonavi.com/appmaptile?style=6&x={x}&y={y}&z={z}',
+    url: 'https://webst0{1-4}.is.autonavi.com/appmaptile?style=6&x={x}&y={y}&z={z}',
     thumbnail: 'https://webst01.is.autonavi.com/appmaptile?style=6&x=2&y=1&z=3',
     maxZoom: 18,
     minZoom: 3,
